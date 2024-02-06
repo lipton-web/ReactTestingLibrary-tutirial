@@ -1,70 +1,59 @@
-# Getting Started with Create React App
+# React Testing Library 강좌
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+https://www.youtube.com/playlist?list=PLZKTXPmaJk8JNJKFt7CK0jQvFIytGdf9n
 
-## Available Scripts
+프론트엔드 작업이 딜레이 되는 경우:
 
-In the project directory, you can run:
+- API 아직 안나옴
+- 원하는 형태의 데이터가 아님
+- 에러는 어떻게 발생 시킬까?
 
-### `yarn start`
+ex)  
+상품명이 10자 이상이면 어떻게 나올까?  
+판매중단 된 상품 && 성인만 열람할 수 있는 상품 목록  
+500 에러가 났을 때 화면을 보고 싶은데..
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+이럴 때 리액트 테스팅 라이브러리를 사용해보면 좋다.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 리액트 테스팅 라이브러리
 
-### `yarn test`
+리액트 테스팅 라이브러리 소개
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- 리액트 컴포넌트를 테스트하기 위한 도구
+- create 리액트 앱을 사용하면 별도 설치 없이 사용 가능
+- 제스트에 대한 사전 지식이 필요
 
-### `yarn build`
+```js
+// MyPage.test.js
+// test 기본 작성 방법
+// MyPage 컴포넌트에서 txtEl이 있는지 확인한다.
+test("유저가 있으면 환영문구를 보여준다", () => {
+  render(<MyPage user={{ name: "KIM" }} />);
+  const txtEl = screen.getByText(/KIM님 환영합니다/);
+  expect(txtEl).toBeInTheDocument();
+});
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## jest-dom Custom matchers
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+jest-dom의 커스텀 매처들을 사용해서 DOM 엘리먼트의 상태를 검증하는 방법을 보여줍니다.
+https://github.com/testing-library/jest-dom
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Highlights:
 
-### `yarn eject`
+[00:00:02] jest-dom 커스텀 매처들의 종류와 사용법
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- 투비인더 도큐먼트, 투비 디세이블드, 투해브 어트리뷰트, 투해브 스타일 등의 매처들을 소개합니다
+- HTML 엘리먼트의 속성이나 스타일을 테스트할 때 유용합니다
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+[00:00:36] 조인버튼 컴포넌트를 만들고 테스트하기
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- 에이지라는 props를 받아서 성인 여부에 따라 버튼의 활성화 상태와 색상을 바꿉니다
+- 성인이 아니면 버튼을 비활성화하고 빨간색으로 문구를 표시합니다
+- 성인이면 버튼을 활성화하고 흰색으로 문구를 표시합니다
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+[00:02:04] jest-dom 커스텀 매처들을 이용한 테스트 코드 작성
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- 성인이 아니면 버튼과 텍스트가 있는지, 버튼이 비활성화 되어 있는지, 텍스트의 색상이 빨간색인지 확인합니다
+- 성인이면 버튼과 텍스트가 있는지, 버튼이 활성화 되어 있는지, 텍스트의 색상이 흰색인지 확인합니다
+- 테스트 코드를 실행하고 모든 테스트가 통과하는 것을 확인합니다
